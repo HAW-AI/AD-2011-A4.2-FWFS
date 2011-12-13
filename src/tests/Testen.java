@@ -24,7 +24,6 @@ public class Testen {
 		testGraph.printer();
 		testGraph = testGraph.sameGraph();
 		testGraph.printer();
-		System.out.println(firstPoint(testGraph.points()).x() + " " + firstPoint(testGraph.points()).y());
 		
 		for(Point x : grahamScan(testGraph)){
 			System.out.print("(" + x.x() + "," + x.y() + ")");

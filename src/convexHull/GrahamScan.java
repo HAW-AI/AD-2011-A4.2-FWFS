@@ -41,11 +41,11 @@ public class GrahamScan {
 		return angleList;
 	}
 	
-	public static int radialPointOrder(Point t0, Point t1, Point t2){
+	private static int radialPointOrder(Point t0, Point t1, Point t2){
 		return (((t1.x()-t0.x())*(t2.y()-t0.y()))-((t2.x()-t0.x())*(t1.y()-t0.y())));
 	}
 	
-	public static Point firstPoint(List<Point> points){
+	private static Point firstPoint(List<Point> points){
 		Point temp = points.get(0);		
 		for(Point x : points){
 			if(x.x() < temp.x()){temp = x;}
