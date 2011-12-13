@@ -44,8 +44,6 @@ public class Frame extends JFrame{
 		buttonNR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				
-//				hull = convexHull();
-//				inner = innerPoints();
 				hull = Arrays.asList(new Point(0,70),new Point(-50,-50),new Point(50,-50));
 				inner = Arrays.asList(new Point(0,30),new Point(-20,-20),new Point(20,-20));
 				

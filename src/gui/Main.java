@@ -9,6 +9,5 @@ public class Main {
 		Frame frame = new Frame(400,400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
 	}
 }
