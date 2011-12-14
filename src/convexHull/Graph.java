@@ -5,6 +5,7 @@ import java.util.*;
 
 public class Graph {
 	static int seed;
+	static int pointCount;
 	Random x;
 	Random y;
 	static ArrayList<Point> points;
@@ -15,6 +16,7 @@ public class Graph {
 		this.x = new Random(seed);
 		this.y = new Random(seed+1);
 		this.seed = seed;
+		this.pointCount = pointCount;
 		points = new ArrayList<Point>();
 		for(int i = 0; i < pointCount; i++){
 			points.add(new Point(x.nextInt()%101, y.nextInt()%101));			
@@ -63,7 +65,7 @@ public class Graph {
 	}
 	
 	public static Graph sameGraph(){
-		return new Graph(points.size(), seed);
+		return new Graph(pointCount, seed);
 	}
 	
 	public static void printer(){
