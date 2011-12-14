@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import convexHull.Graph;
 import convexHull.Point;
 
 public class Frame extends JFrame{
@@ -28,24 +29,35 @@ public class Frame extends JFrame{
 	JButton buttonLR;
 	List<Point> hull = new ArrayList<Point>();
 	List<Point> inner = new ArrayList<Point>();
-	int width,height;
 	double xfaktor,yfaktor;
 	int pointSize = 4;
+	int originX,originY;
+	Graph g = Graph.randomGraph(20);
 
 	Frame(int x,int y){
 		super("konvexe Hülle");
-		setSize(x, y+50);
-		xfaktor = (x/2)/100;
-		yfaktor = (y/2)/100;
-		width = x;
-		height = y;
+		setSize(x, y);
+		System.out.println(x);
+		System.out.println(y);
+		originX = (x/2);
+		originY = ((y-50)/2) + 50;
+		
+		xfaktor = ((x-50)/2.0)/100.0;
+		yfaktor = ((y-120)/2.0)/100.0;
+		
+		System.out.println(xfaktor);
+		System.out.println(yfaktor);
+		System.out.println(originX);
+		System.out.println(originY);
 
 		buttonNR = new JButton("<HTML><CENTER><BODY>Generate<BR>new Points</BODY></HTML>");
 		buttonNR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				
-				hull = Arrays.asList(new Point(0,70),new Point(-50,-50),new Point(50,-50));
-				inner = Arrays.asList(new Point(0,30),new Point(-20,-20),new Point(20,-20));
+
+				g = Graph.randomGraph(20);
+				hull = g.convexHull();
+				inner = g.innerPoints();
+//				g.formatPrinter();
 				
 				repaint();
 				
@@ -56,11 +68,12 @@ public class Frame extends JFrame{
 		buttonLR = new JButton("<HTML><CENTER><BODY>Use last<BR>Points</BODY></HTML>");
 		buttonLR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				
-			inner = Arrays.asList(new Point(0,70),new Point(-50,-50),new Point(50,-50));
-			hull = Arrays.asList(new Point(0,30),new Point(-20,-20),new Point(20,-20));
-			
-			repaint();
+
+				g = Graph.sameGraph();
+				hull = g.convexHull();
+				inner = g.innerPoints();
+//				g.formatPrinter();
+				repaint();
 
 				}
 			}
@@ -83,16 +96,17 @@ public class Frame extends JFrame{
 	  public void paint( Graphics g ){
         super.paint(g);
 		for(int i = 0 ; i < hull.size();i++){
-			  g.drawOval((int) (width/2 + (hull.get(i).x() * xfaktor))-(pointSize/2), (int) ( height/2 + (hull.get(i).y() * yfaktor))-(pointSize/2)+50, pointSize, pointSize);
+			  if(!(i == hull.size()-1));
+			  g.drawOval((int) (originX + (hull.get(i).x() * xfaktor))-(pointSize/2), (int) ( originY + (hull.get(i).y() * yfaktor))-(pointSize/2), pointSize, pointSize);
 			  if(!(i == hull.size()-1)){
-				  g.drawLine((int) (width/2 + (hull.get(i).x() * xfaktor)), (int) ( height/2 + (hull.get(i).y() * yfaktor)+50),(int) (width/2 + (hull.get(i+1).x() * xfaktor)), (int) ( height/2 + (hull.get(i+1).y() * yfaktor)+50));
+				  g.drawLine((int) (originX + (hull.get(i).x() * xfaktor)), (int) ( originY + (hull.get(i).y() * yfaktor)),(int) (originX + (hull.get(i+1).x() * xfaktor)), (int) ( originY + (hull.get(i+1).y() * yfaktor)));
 			  }
 			}
 			if(!hull.isEmpty())
-			  g.drawLine((int) (width/2 + (hull.get(0).x() * xfaktor)), (int) ( height/2 + (hull.get(0).y() * yfaktor)+50), (int) (width/2 + (hull.get(hull.size()-1).x() * xfaktor)), (int) ( height/2 + (hull.get(hull.size()-1).y() * yfaktor)+50));
+			  g.drawLine((int) (originX + (hull.get(0).x() * xfaktor)), (int) ( originY + (hull.get(0).y() * yfaktor)), (int) (originX + (hull.get(hull.size()-1).x() * xfaktor)), (int) ( originY + (hull.get(hull.size()-1).y() * yfaktor)));
 
 			for(Point p : inner){
-			  g.drawOval((int) (width/2 + (p.x() * xfaktor))-(pointSize/2), (int) ( height/2 + (p.y() * yfaktor))-(pointSize/2)+50, pointSize, pointSize);
+			  g.drawOval((int) (originX + (p.x() * xfaktor))-(pointSize/2), (int) ( originY + (p.y() * yfaktor))-(pointSize/2), pointSize, pointSize);
 			}
 		  }
     }

@@ -32,6 +32,7 @@ public class Testen {
 		System.out.println();
 		
 		testGraph.formatPrinter();
+		testGraph.formatPrinter();
 	}
 
 }

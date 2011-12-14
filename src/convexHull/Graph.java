@@ -8,6 +8,8 @@ public class Graph {
 	Random x;
 	Random y;
 	static ArrayList<Point> points;
+	List<Point> innerPoints = new LinkedList<Point>();
+	List<Point> convexHull = new LinkedList<Point>();
 	
 	private Graph(int pointCount, int seed){
 		this.x = new Random(seed);
@@ -17,6 +19,10 @@ public class Graph {
 		for(int i = 0; i < pointCount; i++){
 			points.add(new Point(x.nextInt()%101, y.nextInt()%101));			
 		}
+
+		convexHull = GrahamScan.grahamScan(this);
+		innerPoints.addAll(points);
+		innerPoints.removeAll(convexHull);
 	}
 	
 	public static ArrayList<Point> points(){
@@ -47,6 +53,14 @@ public class Graph {
 		}
 		System.out.print("]");
 		System.out.println();
+	}
+	
+	public List<Point> innerPoints(){
+		return innerPoints;
+	}
+	
+	public List<Point> convexHull(){
+		return convexHull;
 	}
 	
 	public void formatPrinter(){
