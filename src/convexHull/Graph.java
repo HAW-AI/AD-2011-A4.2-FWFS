@@ -23,6 +23,26 @@ public class Graph {
 		convexHull = GrahamScan.grahamScan(this);
 		innerPoints.addAll(points);
 		innerPoints.removeAll(convexHull);
+		Collections.sort(convexHull);
+		
+		boolean sorted = false;
+		
+		while(!sorted){
+			sorted = true;
+			for(int i = 0; i+1 < innerPoints.size(); i++){
+				if(innerPoints.get(i).distanceFromZero() > innerPoints.get(i+1).distanceFromZero()){
+					innerPoints.add(i+2, innerPoints.get(i));
+					innerPoints.remove(i);
+					sorted=false;
+					break;
+				} else if(innerPoints.get(i).distanceFromZero() == innerPoints.get(i+1).distanceFromZero()&& innerPoints.get(i).compareTo(innerPoints.get(i+1))>0){
+					innerPoints.add(i+2, innerPoints.get(i));
+					innerPoints.remove(i);
+					sorted=false;
+					break;
+				}
+			}
+		}
 	}
 	
 	public static ArrayList<Point> points(){
@@ -63,42 +83,15 @@ public class Graph {
 		return convexHull;
 	}
 	
-	public void formatPrinter(){
-		List<Point> hull = new LinkedList<Point>();
-		hull = GrahamScan.grahamScan(this);
-		List<Point> inner = new LinkedList<Point>();
-		inner.addAll(points);
-		inner.removeAll(hull);
-		
-		Collections.sort(hull);
+	public void formatPrinter(){		
+
 		System.out.print("[[");
-		for(Point a : hull){
+		for(Point a : convexHull){
 			System.out.print("(" + a.x() + "," + a.y() + ")");
 			
 		}
 		System.out.print("][");
-		
-		boolean sorted = false;
-		
-		while(!sorted){
-			sorted = true;
-			for(int i = 0; i+1 < inner.size(); i++){
-				if(inner.get(i).distanceFromZero() > inner.get(i+1).distanceFromZero()){
-					inner.add(i+2, inner.get(i));
-					inner.remove(i);
-					sorted=false;
-					break;
-				} else if(inner.get(i).distanceFromZero() == inner.get(i+1).distanceFromZero()&& inner.get(i).compareTo(inner.get(i+1))>0){
-					inner.add(i+2, inner.get(i));
-					inner.remove(i);
-					sorted=false;
-					break;
-				}
-			}
-			
-		}
-		
-		for(Point c : inner){
+		for(Point c : innerPoints){
 			System.out.print("(" + c.x() + "," + c.y() +  ")");
 			
 		}
