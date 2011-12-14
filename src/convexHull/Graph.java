@@ -4,18 +4,27 @@ import java.util.*;
 
 
 public class Graph {
-	static int seed;
-	static int pointCount;
-	Random x;
-	Random y;
-	static ArrayList<Point> points;
-	List<Point> innerPoints = new LinkedList<Point>();
-	List<Point> convexHull = new LinkedList<Point>();
+	private	int seed;
+	private int pointCount;
+	private ArrayList<Point> points;
+	private List<Point> innerPoints = new LinkedList<Point>();
+	private List<Point> convexHull = new LinkedList<Point>();
+
+	public static Graph randomGraph(int pointCount){
+		int rand = new Integer((int) (Math.random()*50.0));
+		return new Graph(pointCount, rand);
+	}
+
+	public Graph sameGraph(){
+		return new Graph(noOfPoints(),getSeed());
+	}
 	
-	private Graph(int pointCount, int seed){
-		this.x = new Random(seed);
-		this.y = new Random(seed+1);
-		this.seed = seed;
+	private Graph(int pointCount, int s){
+		Random x;
+		Random y;
+		seed = s;
+		x = new Random(seed);
+		y = new Random(seed+1);
 		this.pointCount = pointCount;
 		points = new ArrayList<Point>();
 		for(int i = 0; i < pointCount; i++){
@@ -25,50 +34,21 @@ public class Graph {
 		convexHull = GrahamScan.grahamScan(this);
 		innerPoints.addAll(points);
 		innerPoints.removeAll(convexHull);
-		Collections.sort(convexHull);
-		
-		boolean sorted = false;
-		
-		while(!sorted){
-			sorted = true;
-			for(int i = 0; i+1 < innerPoints.size(); i++){
-				if(innerPoints.get(i).distanceFromZero() > innerPoints.get(i+1).distanceFromZero()){
-					innerPoints.add(i+2, innerPoints.get(i));
-					innerPoints.remove(i);
-					sorted=false;
-					break;
-				} else if(innerPoints.get(i).distanceFromZero() == innerPoints.get(i+1).distanceFromZero()&& innerPoints.get(i).compareTo(innerPoints.get(i+1))>0){
-					innerPoints.add(i+2, innerPoints.get(i));
-					innerPoints.remove(i);
-					sorted=false;
-					break;
-				}
-			}
-		}
 	}
 	
-	public static ArrayList<Point> points(){
+	private int getSeed(){
+		return this.seed;
+	}
+	
+	public ArrayList<Point> points(){
 		return points;
 	}
-	
-	public static Graph randomGraph(int pointCount){
-		int rand = new Integer((int) (Math.random()*50.0));
-		return new Graph(pointCount, rand);
+
+	public int noOfPoints(){
+		return pointCount;
 	}
 	
-	public static Graph graphFromSeed(int pointCount, int seed){
-		return new Graph(pointCount, seed);
-	}
-	
-	public static int noOfPoints(){
-		return points.size();
-	}
-	
-	public static Graph sameGraph(){
-		return new Graph(pointCount, seed);
-	}
-	
-	public static void printer(){
+	public void printer(){
 		System.out.print("[");
 		for(Point x : points){
 			System.out.print("(" + x.x() + "," + x.y() + ")");
@@ -85,15 +65,39 @@ public class Graph {
 		return convexHull;
 	}
 	
-	public void formatPrinter(){		
+	public void formatPrinter(){	
+		List<Point> tempInner = new LinkedList<Point>();
+		tempInner.addAll(innerPoints);
+		List<Point> tempConvex = new LinkedList<Point>();
+		tempConvex.addAll(convexHull);
+		Collections.sort(tempConvex);
+		
+		boolean sorted = false;
+		
+		while(!sorted){
+			sorted = true;
+			for(int i = 0; i+1 < tempInner.size(); i++){
+				if(tempInner.get(i).distanceFromZero() > tempInner.get(i+1).distanceFromZero()){
+					tempInner.add(i+2, tempInner.get(i));
+					tempInner.remove(i);
+					sorted=false;
+					break;
+				} else if(tempInner.get(i).distanceFromZero() == tempInner.get(i+1).distanceFromZero()&& tempInner.get(i).compareTo(tempInner.get(i+1))>0){
+					tempInner.add(i+2, tempInner.get(i));
+					tempInner.remove(i);
+					sorted=false;
+					break;
+				}
+			}
+		}	
 
 		System.out.print("[[");
-		for(Point a : convexHull){
+		for(Point a : tempConvex){
 			System.out.print("(" + a.x() + "," + a.y() + ")");
 			
 		}
 		System.out.print("][");
-		for(Point c : innerPoints){
+		for(Point c : tempInner){
 			System.out.print("(" + c.x() + "," + c.y() +  ")");
 			
 		}

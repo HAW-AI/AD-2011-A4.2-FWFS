@@ -35,7 +35,7 @@ public class Frame extends JFrame{
 	Graph g = Graph.randomGraph(20);
 
 	Frame(int x,int y){
-		super("konvexe Hülle");
+		super("konvexe Huelle");
 		setSize(x, y);
 		System.out.println(x);
 		System.out.println(y);
@@ -57,7 +57,7 @@ public class Frame extends JFrame{
 				g = Graph.randomGraph(20);
 				hull = g.convexHull();
 				inner = g.innerPoints();
-//				g.formatPrinter();
+				g.formatPrinter();
 				
 				repaint();
 				
@@ -69,10 +69,10 @@ public class Frame extends JFrame{
 		buttonLR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 
-				g = Graph.sameGraph();
+				g = g.sameGraph();
 				hull = g.convexHull();
 				inner = g.innerPoints();
-//				g.formatPrinter();
+				g.formatPrinter();
 				repaint();
 
 				}

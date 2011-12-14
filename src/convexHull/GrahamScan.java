@@ -7,7 +7,7 @@ public class GrahamScan {
 	private static List<Point> angleList;
 	private static List<Point> graphPoints;
 	public static List<Point> grahamScan(Graph x){
-		graphPoints = x.points;
+		graphPoints = x.points();
 		angleList = new LinkedList<Point>();
 		angleList.add(firstPoint(graphPoints));
 		graphPoints.removeAll(angleList);

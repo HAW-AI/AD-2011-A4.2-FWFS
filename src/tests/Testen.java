@@ -13,14 +13,9 @@ public class Testen {
 	@Test
 	public void tests() {
 
-		Graph testGraph = graphFromSeed(5, 20);
-		testGraph.printer();
-		testGraph = graphFromSeed(5, 20);
+		Graph testGraph = randomGraph(20);
 		testGraph.printer();
 		testGraph = testGraph.sameGraph();
-		testGraph.printer();
-		testGraph = randomGraph(20);
-		testGraph = randomGraph(20);
 		testGraph.printer();
 		testGraph = testGraph.sameGraph();
 		testGraph.printer();
