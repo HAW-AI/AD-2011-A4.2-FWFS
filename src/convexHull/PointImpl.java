@@ -1,22 +1,27 @@
 package convexHull;
 
-public class Point implements Comparable<Point>{
+import Interfaces.Point;
 
-	final int xCoord,yCoord;
+public class PointImpl implements  Point{
+
+	private final int xCoord,yCoord;
 	
-	public Point(int x, int y){
+	public PointImpl(int x, int y){
 		xCoord = x;
 		yCoord = y;
 	}
 	
+	@Override
 	public int x(){
 		return xCoord;
 	}
 	
+	@Override
 	public int y(){
 		return yCoord;
 	}
 	
+	@Override
 	public double distanceFromZero(){
 		return Math.sqrt(x()*x()+y()*y());
 	}
@@ -49,9 +54,9 @@ public class Point implements Comparable<Point>{
 		if (getClass() != obj.getClass())
 			return false;
 		Point other = (Point) obj;
-		if (xCoord != other.xCoord)
+		if (xCoord != other.x())
 			return false;
-		if (yCoord != other.yCoord)
+		if (yCoord != other.y())
 			return false;
 		return true;
 	}

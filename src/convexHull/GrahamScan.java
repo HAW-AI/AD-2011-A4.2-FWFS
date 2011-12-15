@@ -2,10 +2,16 @@ package convexHull;
 
 import java.util.*;
 
+import Interfaces.Graph;
+import Interfaces.Point;
+
 public class GrahamScan {
 
 	private static List<Point> angleList;
 	private static List<Point> graphPoints;
+	
+	private GrahamScan(){};
+	
 	public static List<Point> grahamScan(Graph x){
 		graphPoints = x.points();
 		angleList = new LinkedList<Point>();
@@ -35,9 +41,7 @@ public class GrahamScan {
 				angleList.remove(k);
 				k--;
 			}
-			
 		}
-		
 		return angleList;
 	}
 	
@@ -48,8 +52,12 @@ public class GrahamScan {
 	private static Point firstPoint(List<Point> points){
 		Point temp = points.get(0);		
 		for(Point x : points){
-			if(x.x() < temp.x()){temp = x;}
-			else if(x.x() == temp.x() && x.y() < temp.y()) {temp = x;}			
+			if(x.x() < temp.x()){
+				temp = x;
+				}
+			else if(x.x() == temp.x() && x.y() < temp.y()) {
+				temp = x;
+				}			
 		}		
 		return temp;
 	}

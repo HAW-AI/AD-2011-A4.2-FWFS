@@ -15,8 +15,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import convexHull.Graph;
-import convexHull.Point;
+import Interfaces.Graph;
+import Interfaces.Point;
+
+import convexHull.GraphImpl;
+import convexHull.PointImpl;
 
 public class Frame extends JFrame{
 	
@@ -32,7 +35,7 @@ public class Frame extends JFrame{
 	double xfaktor,yfaktor;
 	int pointSize = 4;
 	int originX,originY;
-	Graph g = Graph.randomGraph(20);
+	Graph g = GraphImpl.randomGraph(20);
 
 	Frame(int x,int y){
 		super("konvexe Huelle");
@@ -54,7 +57,7 @@ public class Frame extends JFrame{
 		buttonNR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 
-				g = Graph.randomGraph(20);
+				g = GraphImpl.randomGraph(20);
 				hull = g.convexHull();
 				inner = g.innerPoints();
 				g.formatPrinter();

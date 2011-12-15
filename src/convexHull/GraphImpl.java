@@ -2,24 +2,28 @@ package convexHull;
 
 import java.util.*;
 
+import Interfaces.Graph;
+import Interfaces.Point;
 
-public class Graph {
-	private	int seed;
-	private int pointCount;
-	private ArrayList<Point> points;
-	private List<Point> innerPoints = new LinkedList<Point>();
-	private List<Point> convexHull = new LinkedList<Point>();
+
+public class GraphImpl implements Graph {
+	private	final int seed;
+	private final int pointCount;
+	private final ArrayList<Point> points;
+	private final List<Point> innerPoints = new LinkedList<Point>();
+	private final List<Point> convexHull;
 
 	public static Graph randomGraph(int pointCount){
 		int rand = new Integer((int) (Math.random()*50.0));
-		return new Graph(pointCount, rand);
+		return new GraphImpl(pointCount, rand);
 	}
 
+	@Override
 	public Graph sameGraph(){
-		return new Graph(noOfPoints(),getSeed());
+		return new GraphImpl(numberOfPoints(),getSeed());
 	}
 	
-	private Graph(int pointCount, int s){
+	private GraphImpl(int pointCount, int s){
 		Random x;
 		Random y;
 		seed = s;
@@ -28,7 +32,7 @@ public class Graph {
 		this.pointCount = pointCount;
 		points = new ArrayList<Point>();
 		for(int i = 0; i < pointCount; i++){
-			points.add(new Point(x.nextInt()%101, y.nextInt()%101));			
+			points.add(new PointImpl(x.nextInt()%101, y.nextInt()%101));			
 		}
 
 		convexHull = GrahamScan.grahamScan(this);
@@ -40,14 +44,17 @@ public class Graph {
 		return this.seed;
 	}
 	
+	@Override
 	public ArrayList<Point> points(){
 		return points;
 	}
 
-	public int noOfPoints(){
+	@Override
+	public int numberOfPoints(){
 		return pointCount;
 	}
 	
+	@Override
 	public void printer(){
 		System.out.print("[");
 		for(Point x : points){
@@ -57,14 +64,21 @@ public class Graph {
 		System.out.println();
 	}
 	
+	@Override
 	public List<Point> innerPoints(){
-		return innerPoints;
+		List<Point> tempInner = new LinkedList<Point>();
+		tempInner.addAll(innerPoints);
+		return tempInner;
 	}
 	
+	@Override
 	public List<Point> convexHull(){
-		return convexHull;
+		List<Point> tempConvex = new LinkedList<Point>();
+		tempConvex.addAll(convexHull);
+		return tempConvex;
 	}
 	
+	@Override
 	public void formatPrinter(){	
 		List<Point> tempInner = new LinkedList<Point>();
 		tempInner.addAll(innerPoints);
@@ -77,16 +91,20 @@ public class Graph {
 		while(!sorted){
 			sorted = true;
 			for(int i = 0; i+1 < tempInner.size(); i++){
-				if(tempInner.get(i).distanceFromZero() > tempInner.get(i+1).distanceFromZero()){
+				
+				if((tempInner.get(i).distanceFromZero() > tempInner.get(i+1).distanceFromZero()) || 
+						(tempInner.get(i).distanceFromZero() == tempInner.get(i+1).distanceFromZero() && 
+							tempInner.get(i).compareTo(tempInner.get(i+1))>0)){
+					
 					tempInner.add(i+2, tempInner.get(i));
 					tempInner.remove(i);
 					sorted=false;
-					break;
-				} else if(tempInner.get(i).distanceFromZero() == tempInner.get(i+1).distanceFromZero()&& tempInner.get(i).compareTo(tempInner.get(i+1))>0){
-					tempInner.add(i+2, tempInner.get(i));
-					tempInner.remove(i);
-					sorted=false;
-					break;
+//					break;
+//				} else if(){
+//					tempInner.add(i+2, tempInner.get(i));
+//					tempInner.remove(i);
+//					sorted=false;
+//					break;
 				}
 			}
 		}	

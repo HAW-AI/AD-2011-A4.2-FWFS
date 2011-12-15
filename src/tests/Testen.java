@@ -1,12 +1,13 @@
 package tests;
 
 import static org.junit.Assert.*;
-import static convexHull.Graph.*;
+import static convexHull.GraphImpl.*;
 import static convexHull.GrahamScan.*;
 import org.junit.Test;
 
-import convexHull.Graph;
-import convexHull.Point;
+import Interfaces.Graph;
+import Interfaces.Point;
+
 
 public class Testen {
 
@@ -26,7 +27,6 @@ public class Testen {
 		}
 		System.out.println();
 		
-		testGraph.formatPrinter();
 		testGraph.formatPrinter();
 	}
 
