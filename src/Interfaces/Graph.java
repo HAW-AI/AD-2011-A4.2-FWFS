@@ -9,7 +9,7 @@ public interface Graph {
 
 	public Graph sameGraph();
 
-	public ArrayList<Point> points();
+	public List<Point> points();
 
 	public int numberOfPoints();
 
