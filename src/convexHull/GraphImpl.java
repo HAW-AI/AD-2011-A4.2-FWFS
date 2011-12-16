@@ -17,6 +17,10 @@ public class GraphImpl implements Graph {
 		int rand = new Integer((int) (Math.random()*50.0));
 		return new GraphImpl(pointCount, rand);
 	}
+	
+	public static Graph graphFromList(List<Point> l){
+		return new GraphImpl(l);
+	}
 
 	@Override
 	public Graph sameGraph(){
@@ -38,6 +42,19 @@ public class GraphImpl implements Graph {
 		convexHull = GrahamScan.grahamScan(this);
 		innerPoints.addAll(points);
 		innerPoints.removeAll(convexHull);
+	}
+	
+	private GraphImpl(List<Point> l){
+		
+		seed = 0;
+		points = new ArrayList<Point>();
+		points.addAll(l);
+		this.pointCount = points.size();
+
+		convexHull = GrahamScan.grahamScan(this);
+		innerPoints.addAll(points);
+		innerPoints.removeAll(convexHull);
+		
 	}
 	
 	private int getSeed(){
@@ -99,12 +116,6 @@ public class GraphImpl implements Graph {
 					tempInner.add(i+2, tempInner.get(i));
 					tempInner.remove(i);
 					sorted=false;
-//					break;
-//				} else if(){
-//					tempInner.add(i+2, tempInner.get(i));
-//					tempInner.remove(i);
-//					sorted=false;
-//					break;
 				}
 			}
 		}	

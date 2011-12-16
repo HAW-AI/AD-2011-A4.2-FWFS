@@ -6,7 +6,7 @@ public interface Point extends Comparable<Point>{
 
 	public int y();
 
-	public double distanceFromZero();
+	public int distanceFromZero();
 
 	public int compareTo(Point o);
 

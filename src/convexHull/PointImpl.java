@@ -22,8 +22,8 @@ public class PointImpl implements  Point{
 	}
 	
 	@Override
-	public double distanceFromZero(){
-		return Math.sqrt(x()*x()+y()*y());
+	public int distanceFromZero(){
+		return (x()*x()+y()*y());
 	}
 
 	@Override

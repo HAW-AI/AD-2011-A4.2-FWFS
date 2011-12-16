@@ -13,6 +13,8 @@ public class GrahamScan {
 	private GrahamScan(){};
 	
 	public static List<Point> grahamScan(Graph x){
+		if(x.numberOfPoints() < 3)
+			return new ArrayList<Point>();
 		graphPoints = x.points();
 		angleList = new LinkedList<Point>();
 		angleList.add(firstPoint(graphPoints));

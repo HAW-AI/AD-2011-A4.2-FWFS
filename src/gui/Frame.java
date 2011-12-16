@@ -7,11 +7,12 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -19,7 +20,7 @@ import Interfaces.Graph;
 import Interfaces.Point;
 
 import convexHull.GraphImpl;
-import convexHull.PointImpl;
+import convexHull.Parser;
 
 public class Frame extends JFrame{
 	
@@ -30,6 +31,10 @@ public class Frame extends JFrame{
 	
 	JButton buttonNR;
 	JButton buttonLR;
+	JButton buttonList;
+	JButton nvb1;
+	JFileChooser fc;
+	File f;
 	List<Point> hull = new ArrayList<Point>();
 	List<Point> inner = new ArrayList<Point>();
 	double xfaktor,yfaktor;
@@ -40,24 +45,48 @@ public class Frame extends JFrame{
 	Frame(int x,int y){
 		super("konvexe Huelle");
 		setSize(x, y);
-		System.out.println(x);
-		System.out.println(y);
 		originX = (x/2);
-		originY = ((y-50)/2) + 50;
-		
+		originY = ((y-50)/2) + 70;
+		final Frame parent = this;
 		xfaktor = ((x-50)/2.0)/100.0;
 		yfaktor = ((y-120)/2.0)/100.0;
-		
-		System.out.println(xfaktor);
-		System.out.println(yfaktor);
-		System.out.println(originX);
-		System.out.println(originY);
 
+		
+
+		nvb1 = new JButton("<HTML><CENTER><BODY>Open</BODY></HTML>");
+
+		nvb1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+
+				fc=new JFileChooser();
+				int returnVal=fc.showOpenDialog(parent);
+				if(returnVal==JFileChooser.APPROVE_OPTION){
+				f = fc.getSelectedFile();
+				}
+				}
+			}
+		);
+		
+		
 		buttonNR = new JButton("<HTML><CENTER><BODY>Generate<BR>new Points</BODY></HTML>");
 		buttonNR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 
 				g = GraphImpl.randomGraph(20);
+				hull = g.convexHull();
+				inner = g.innerPoints();
+				g.formatPrinter();
+				
+				repaint();
+				
+				}
+			}
+		);
+		buttonList = new JButton("<HTML><CENTER><BODY>Use List</BODY></HTML>");
+		buttonList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+
+				g = GraphImpl.graphFromList(Parser.parse(f));
 				hull = g.convexHull();
 				inner = g.innerPoints();
 				g.formatPrinter();
@@ -81,15 +110,20 @@ public class Frame extends JFrame{
 				}
 			}
 		);
+		
+		
+		
 
 		Container content = getContentPane();
 		
 		JPanel menu = new JPanel();
-		menu.setLayout(new GridLayout(1, 2));
-		menu.setPreferredSize(new Dimension(x/2, 50));
+		menu.setLayout(new GridLayout(2, 2));
+		menu.setPreferredSize(new Dimension(x/3, 70));
 		
 		menu.add(buttonNR, BorderLayout.WEST);
-		menu.add(buttonLR, BorderLayout.EAST);
+		menu.add(buttonLR);
+		menu.add(buttonList, BorderLayout.EAST);
+		menu.add(nvb1,BorderLayout.SOUTH);
 
 		content.add(BorderLayout.NORTH, menu);
 	}
